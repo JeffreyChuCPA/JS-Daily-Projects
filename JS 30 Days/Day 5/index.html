@@ -45,7 +45,7 @@
                 /* Safari transitionend event.propertyName === flex */
                 /* Chrome + FF transitionend event.propertyName === flex-grow */
                 transition: font-size 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11), /*the following defined css properties will transition by these values when these properties change relating to the panel class */
-                    flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11),
+                    flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11), /*triggers whenever there is a change to the property of an element that has this transition applied to (font-size and flex)*/
                     background 0.2s;
                 font-size: 20px;
                 background-size: cover;

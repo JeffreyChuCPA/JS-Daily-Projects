@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Type Ahead 👀</title>
+        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="https://fav.farm/🔥" />
+    </head>
+    <body>
+        <form class="search-form">
+            <input type="text" class="search" placeholder="City or State" />
+            <ul class="suggestions">
+                <li>Filter for a city</li>
+                <li>or a state</li>
+            </ul>
+        </form>
+        <script>
+            const endpoint =
+                "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+            const cities = [];
+
+            fetch(endpoint) //get promise object of the url
+            .then( blob => blob.json()) //*parse the results to json
+            .then(data => cities.push(...data)); //*push the spread of the data results into an array
+
+            console.log(cities);
+
+            
+            // const search = document.querySelector('input')
+            // search.addEventListener('keydown', findMatches)
+            
+            // function findMatches(e, cities) {
+            //   console.log(e.target.value);
+            //   const filterCities = cities.filter(city => city.includes('e.target.value'))
+            //   console.log(filterCities);
+            // }
+
+            function findMatches(wordToMatch, cities) { //function to return a filtered array containing matches between input string and array of cities
+              return cities.filter(place => {
+                const regex = new RegExp(wordToMatch, 'gi');
+                return place.city.match(regex) || place.state.match(regex)
+              })
+            }
+
+            function displayMatches() { //function to visually display the matched search results via inputting direct html elements
+              const results = findMatches(this.value, cities)
+              const html = results.map(result => { //for each match result, replace the city and state string with a span element that has CSS class to highlight the typed input
+                const regex = new RegExp(this.value, 'gi') //use the regex constructor here dynamic expressions. regex expressions like /pattern/ are static and can't be variables
+                const cityName = result.city.replace(regex, `<span class="hl">${this.value}</span>`);
+                const stateName = result.state.replace(regex, `<span class="hl">${this.value}</span>`);
+                return `<li>
+                    <span class="name">${cityName}, ${stateName}</span>
+                    <span class="population">${numberWithCommas(result.population)}</span> 
+                  </li>`
+              }).join('') //returns an array of the html, and then joins it all to 1 string
+              suggestions.innerHTML = html //updates the ul element to the returned html string, which then gets parsed as regular html elements
+            }
+
+            function numberWithCommas(x) {
+              return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); //convert input number to string and replace a specific part with a comma
+            }
+
+            const searchInput = document.querySelector('input')
+            const suggestions = document.querySelector('.suggestions')
+
+            searchInput.addEventListener('change', displayMatches) //change event triggers when you go off that input, not when u type it
+            searchInput.addEventListener('keyup', displayMatches)
+            
+            </script>
+    </body>
+</html>
