@@ -1,3 +1,9 @@
+//Topics learned
+//properties and methods of video element such as pause(), play(), .paused, .currentTime, .duration
+
+
+
+
 //get our elements
 const player = document.querySelector(".player");
 const video = player.querySelector(".viewer");

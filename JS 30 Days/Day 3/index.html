@@ -1,3 +1,11 @@
+<!-- Topics learned
+- Nodelists are similar to an array, but are mainly used for HTML elements pulled from DOM and has ForEach method
+- Using CSS variables (:root{--variableName: value})
+- input type of range
+- .dataset is an object that holds all'data-' attributes from the element
+- function declaration can use 'this', arrow function does not reference the direct 'this' object -->
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -80,8 +88,9 @@
             const inputs = document.querySelectorAll(".controls input"); //returns a node list, similar to array but with less methods
 
             function handleUpdate() {
-                //console.log(this.value); //function declaration can use 'this', arrow function does not reference the direct 'this' object
+                console.log(this.value); //function declaration can use 'this', arrow function does not reference the direct 'this' object
                 const suffix = this.dataset.sizing || ""; //dataset is an object that holds all'data-' attributes from the element
+                console.log(suffix);
                 document.documentElement.style.setProperty(
                     `--${this.name}`,
                     this.value + suffix

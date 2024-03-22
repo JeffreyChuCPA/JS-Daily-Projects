@@ -1,3 +1,10 @@
+<!-- Topics learned
+- primitives are pass by value
+- array and objects are pass by reference
+-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -92,8 +99,10 @@
       console.log(jeff);
       // const dev = Object.assign({}, jeff)
       const dev = {...jeff}
-      dev.name = "Chu"
+      dev.name = "kkkkkkk"
+      dev.social.twitter = "564654"
       console.log(dev);
+      console.log(jeff);
 
       //cheapway to deepclone
       //converts object to a string, then convert it back to an object, to get a full copy
