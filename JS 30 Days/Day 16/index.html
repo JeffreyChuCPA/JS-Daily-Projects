@@ -1,0 +1,73 @@
+<!-- Topics learned
+- be cautious of the html elem you listen for (parent) and html elem that is triggered (parent or child) and how event.targets change 
+- be cautious of how child elements affect event listeners and events in the parent
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  const hero = document.querySelector('.hero')
+  const text = hero.querySelector('h1')
+  const walk = 500 //pixel limit
+
+  function shadow(e) {
+    // const width = hero.offsetWidth
+    // const height = hero.offsetHeight
+    const {offsetWidth: width, offsetHeight: height} = hero
+    let {offsetX: x, offsetY: y} = e
+    // console.log(this, e.target); //this is what you listened on (hero), e.target is what is triggered on (hero or h1)
+    if (this !== e.target) { //to add the 2px that is from the mouse event on h1 to the 200px from the mouse event for the hero
+      x = x + e.target.offsetLeft; //basically to solve the issue of mouse coord resetting when going over child element when we listen to parent element
+      y = y + e.target.offsetTop;
+    }
+    
+    const xWalk = Math.round((x / width * walk) - (walk / 2))//math to set value to be +50 and -50 instead of out walk max of 100 and 0
+    const yWalk = Math.round((y / height * walk) - (walk / 2))
+    console.log(xWalk, yWalk);
+    text.style.textShadow = `
+      ${xWalk}px ${yWalk}px 0 rgba(255, 0, 255, 0.7),
+      ${xWalk * -1}px ${yWalk}px 0 rgba(0, 255, 255, 0.7),
+      ${yWalk}px ${xWalk * -1}px 0 rgba(0, 255, 0, 0.7),
+      ${yWalk * -1}px ${xWalk}px 0 rgba(0, 0, 255, 0.7)
+    `
+  }
+
+  hero.addEventListener('mousemove', shadow)
+</script>
+</body>
+</html>
