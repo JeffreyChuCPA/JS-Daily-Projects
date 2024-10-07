@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+</style>
+
+<button>Button</button>
+<script>
+  const divs = document.querySelectorAll('div')
+  const button = document.querySelector('button')
+
+  function logText(e) {
+    console.log(this.classList.value);
+    // e.stopPropagation() //stop event trigger from bubbling up
+  }
+
+  //when an element is clicked, capture phase occurs where the elements are stored from top to bottom, then bubbling phase is when the event is triggered from bottom up based on the capture phase
+
+  divs.forEach( div => div.addEventListener('click', logText, {capture: false, once: false}))
+  //{capture: true} means the event is trigger on the capture phase of going from top to bottom elements, instead of when bubbling bottom to top
+  //default is false, therefore bubbling is triggered from bottom up
+  //{once: true} will listen for a click and unbind itself = div.removeEventListener('click', logText)
+
+  button.addEventListener('click', () => {console.log('click')}, {once: true})
+
+</script>
+</body>
+</html>
